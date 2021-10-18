@@ -5,7 +5,7 @@ import pandas as pd
 
 from matplotlib import pyplot as plt
 from sklearn.metrics import classification_report, confusion_matrix
-from src.config import config
+from config import config
 from IPython.display import display
 from keras.utils.vis_utils import plot_model
 from sklearn.model_selection import train_test_split

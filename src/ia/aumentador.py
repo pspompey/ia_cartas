@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 from PIL import Image
 from PIL._imaging import display
 
-from src.config import config
+from config import config
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from matplotlib.pyplot import imshow, subplots, show
 

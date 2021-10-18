@@ -6,12 +6,11 @@ import numpy as np
 from PIL import Image
 from keras.utils import np_utils
 from sklearn.model_selection import train_test_split
+from ia.redneuronal import RedNeuronal
 
-from src.config import config
-from src.model.carta import Carta
-from src.model.cartas import cartas
-from src.ai.redneuronal import RedNeuronal
-
+from config import config
+from model.carta import Carta
+from model.cartas import cartas
 
 class Reconocedor:
     def __init__(self, aumentador):
