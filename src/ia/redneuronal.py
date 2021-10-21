@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import numpy as np
-import tensorflow as tf
+#import tensorflow as tf
+import tensorflow.compat.v1 as tf
 import pandas as pd
 
 from matplotlib import pyplot as plt
@@ -12,6 +13,7 @@ from sklearn.model_selection import train_test_split
 from tensorflow.keras.layers import Input, Dense
 from tensorflow.keras import Model
 
+
 class RedNeuronal:
     def __init__(self, x_e, y_e, x_p, y_p, map):
         self.__x_e = x_e
@@ -22,7 +24,7 @@ class RedNeuronal:
 
     def crear_modelo(self, inputs, outputs, learn_rate):
         # Modelo con tres layers ocultos.
-        hidden_layer_nodes = [inputs // 2, inputs // 4, inputs // 8]
+        hidden_layer_nodes = [inputs // 8, inputs // 16]
         print("Se creara una RNA multiperceptrón con backpropagation")
 
         input_layer = Input(shape=(inputs,), name="input_img")
@@ -32,13 +34,14 @@ class RedNeuronal:
         for x in range(len(hidden_layer_nodes)):
             layer_name = "hidden_" + str(x + 1)
             previous_layer = Dense(hidden_layer_nodes[x], activation="sigmoid", name=layer_name)(previous_layer)
-
+        
         output_layer = Dense(outputs, activation="softmax", name="output")(previous_layer)
-
-        decr_gradient = tf.keras.optimizers.Adam(learning_rate=learn_rate)
+        #decr_gradient = tf.keras.optimizers.Adam(learning_rate=learn_rate)
+        decr_gradient = tf.keras.optimizers.SGD(learning_rate=learn_rate)
 
         model = Model(input_layer, output_layer, name="RedNeuronalArtificial")
         model.compile(optimizer=decr_gradient, loss="categorical_crossentropy", metrics=["accuracy"])
+        #model.compile(optimizer=tf.keras.optimizers.RMSprop, loss="categorical_crossentropy", metrics=["accuracy"])
 
         print("Modelo creado con " + str(len(model.layers)) + " capas")
         model.summary()
@@ -48,7 +51,7 @@ class RedNeuronal:
         return model
 
     def entrenar(self, model, epochs):
-        x_train, x_verify, y_train, y_verify = train_test_split(self.__x_e, self.__y_e, test_size=0.1)
+        x_train, x_verify, y_train, y_verify = train_test_split(self.__x_e, self.__y_e, test_size=0.01)
         print("Comenzando entrenamiento...")
         history = model.fit(x_train, y_train, epochs=epochs, validation_data=(x_verify, y_verify,), batch_size=4)
         print("Entrenamiento finalizado...")
