@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 
+
+from config import config
 from ia.aumentador import Aumentador
 from ia.reconocedor import Reconocedor
-from config import config
-
 
 aumentador = Aumentador()
 reconocedor = Reconocedor(aumentador)
@@ -17,8 +17,8 @@ modelo = reconocedor.procesar_sets(
     x_pruebas,
     y_pruebas,
     mapa_clases,
-    config["ancho_imagenes_a_procesar"] * config["alto_imagenes_a_procesar"] * 1,
-    6,
+    config["ancho_imagenes_a_procesar"] * config["alto_imagenes_a_procesar"],
+    48,
     config["epochs"],
     config["tasa_aprendizaje"])
 

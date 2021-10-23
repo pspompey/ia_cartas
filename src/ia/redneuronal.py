@@ -22,7 +22,7 @@ class RedNeuronal:
 
     def crear_modelo(self, inputs, outputs, learn_rate):
         # Modelo con tres layers ocultos.
-        hidden_layer_nodes = [inputs // 2, inputs // 4, inputs // 8]
+        hidden_layer_nodes = [inputs // 64]
         print("Se creara una RNA multiperceptrón con backpropagation")
 
         input_layer = Input(shape=(inputs,), name="input_img")
@@ -35,7 +35,7 @@ class RedNeuronal:
 
         output_layer = Dense(outputs, activation="softmax", name="output")(previous_layer)
 
-        decr_gradient = tf.keras.optimizers.Adam(learning_rate=learn_rate)
+        decr_gradient = tf.keras.optimizers.SGD(learning_rate=learn_rate)
 
         model = Model(input_layer, output_layer, name="RedNeuronalArtificial")
         model.compile(optimizer=decr_gradient, loss="categorical_crossentropy", metrics=["accuracy"])
@@ -48,7 +48,7 @@ class RedNeuronal:
         return model
 
     def entrenar(self, model, epochs):
-        x_train, x_verify, y_train, y_verify = train_test_split(self.__x_e, self.__y_e, test_size=0.1)
+        x_train, x_verify, y_train, y_verify = train_test_split(self.__x_e, self.__y_e, test_size=0.01)
         print("Comenzando entrenamiento...")
         history = model.fit(x_train, y_train, epochs=epochs, validation_data=(x_verify, y_verify,), batch_size=4)
         print("Entrenamiento finalizado...")

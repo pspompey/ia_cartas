@@ -30,4 +30,4 @@ def predict(file):
 
   return answer
 
-predict("./tmp/1.png")
+predict("./tmp/train/4/da__0_139736.png")

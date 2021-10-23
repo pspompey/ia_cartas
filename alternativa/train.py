@@ -43,17 +43,11 @@ data_validacion = './tmp/test'
 """
 Parameters
 """
-epocas=20
-longitud, altura = 150, 150
-batch_size = 50
-pasos = 50
+epocas=200
+longitud, altura = 100, 100
+batch_size = 32
 validation_steps = 300
-filtrosConv1 = 32
-filtrosConv2 = 64
-tamano_filtro1 = (3, 3)
-tamano_filtro2 = (2, 2)
-tamano_pool = (2, 2)
-clases = 6
+clases = 48
 lr = 0.0004
 
 
@@ -82,26 +76,20 @@ validacion_generador = test_datagen.flow_from_directory(
 ##CREAR LA RED VGG16
 
 cnn = Sequential()
-cnn.add(Convolution2D(filtrosConv1, tamano_filtro1, padding ="same", input_shape=(longitud, altura, 3), activation='relu'))
-cnn.add(MaxPooling2D(pool_size=tamano_pool))
-
-cnn.add(Convolution2D(filtrosConv2, tamano_filtro2, padding ="same"))
-cnn.add(MaxPooling2D(pool_size=tamano_pool))
 
 cnn.add(Flatten())
-cnn.add(Dense(256, activation='relu'))
+cnn.add(Dense(256, activation='sigmoid'))
 cnn.add(Dropout(0.5))
 cnn.add(Dense(clases, activation='softmax'))
 
 # cnn=modelo()
 
 cnn.compile(loss='categorical_crossentropy',
-            optimizer=optimizers.Adam(learning_rate=lr),
+            optimizer=optimizers.SGD(learning_rate=lr),
             metrics=['accuracy'])
 
 history1 = cnn.fit(
     entrenamiento_generador,
-    steps_per_epoch=pasos,
     epochs=epocas,
     validation_data=validacion_generador,
     validation_steps=validation_steps)
@@ -134,20 +122,16 @@ results = cnn.evaluate(validacion_generador, batch_size=batch_size)
 print("test loss, test acc:", results)
 
 # summarize history for accuracy
-# plt.plot(history1.history['accuracy'])
-# plt.plot(history2.history['accuracy'])
-# plt.plot(history3.history['accuracy'])
-# plt.title('model accuracy')
-# plt.ylabel('accuracy')
-# plt.xlabel('epoch')
-# plt.legend(['history1', 'history2', 'history3'], loc='upper left')
-# plt.show()
-# # summarize history for loss
-# plt.plot(history1.history['loss'])
-# plt.plot(history2.history['loss'])
-# plt.plot(history3.history['loss'])
-# plt.title('model loss')
-# plt.ylabel('loss')
-# plt.xlabel('epoch')
-# plt.legend(['history1', 'history2', 'history3'], loc='upper left')
-# plt.show()
+plt.plot(history1.history['accuracy'])
+plt.title('model accuracy')
+plt.ylabel('accuracy')
+plt.xlabel('epoch')
+plt.legend(['history1'], loc='upper left')
+plt.show()
+# summarize history for loss
+plt.plot(history1.history['loss'])
+plt.title('model loss')
+plt.ylabel('loss')
+plt.xlabel('epoch')
+plt.legend(['history1'], loc='upper left')
+plt.show()

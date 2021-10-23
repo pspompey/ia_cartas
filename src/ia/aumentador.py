@@ -50,7 +50,7 @@ class Aumentador:
 
         path_imagen = str(dest_inicial)
         self.__procesar_imagen(image_generator, tmp_dir / "train", label, int(config["imagenes_por_carta"] * 1.1))
-        self.__procesar_imagen(image_generator, tmp_dir / "test", label, int(config["imagenes_por_carta"] * 0.25))
+        self.__procesar_imagen(image_generator, tmp_dir / "test", label, int(config["imagenes_por_carta"] * 0.5))
         os.remove(tmp_dir / "train" / str(label) / "orig.png")
         os.remove(tmp_dir / "test" / str(label) / "orig.png")
 

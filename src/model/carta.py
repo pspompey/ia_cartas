@@ -21,12 +21,12 @@ class Carta:
 
     # Metodos estaticos para convertir las cartas en numeros
     def to_number(carta):
-        return float(carta.numero + (int(carta.tipo) - 1) * 6)
+        return float(carta.numero + (int(carta.tipo) - 1) * 48)
 
     def to_carta(numero):
         numero_redondeado = int(numero + 0.5)
-        numero = numero_redondeado % 6
+        numero = numero_redondeado % 48
         if numero == 0:
-            numero = 6
-        tipo = ((numero_redondeado - 1) // 6) + 1
+            numero = 48
+        tipo = ((numero_redondeado - 1) // 48) + 1
         return Carta(numero, TipoCarta(tipo))
